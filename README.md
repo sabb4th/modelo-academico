@@ -12,9 +12,11 @@ Arquivos desta pasta:
 
 1. **Preencha os dados do trabalho (PARTE 1 do `modelo.tex`):**
    Edite apenas o que está entre chaves `{ }` nos comandos `\Instituicao{...}`, `\Autor{...}`, `\Titulo{...}`, `\Natureza{...}`, `\Orientacao{...}`, etc. Campos opcionais deixados vazios (`{}`) ocultam-se sozinhos sem deixar espaços em branco.
+   - **Modo de Vários Autores (sem limite):** se o trabalho tiver mais de um autor, mude `\VariosAutores{sim}` na PARTE 2 e adicione quantas linhas `\AdicionarAutor{[NOME]}` precisar na PARTE 1.
 2. **Ligue ou desligue páginas e seções (PARTE 2 do `modelo.tex`):**
    Troque `{sim}` por `{nao}` (ou vice-versa) em qualquer opção:
    ```tex
+   \VariosAutores{nao}
    \MostrarCapa{sim}
    \MostrarFolhaRosto{sim}
    \MostrarDedicatoria{nao}

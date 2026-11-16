@@ -49,7 +49,30 @@
 \newcommand{\@instituicao}{}\newcommand{\Instituicao}[1]{\renewcommand{\@instituicao}{#1}}
 \newcommand{\@unidade}{}\newcommand{\Unidade}[1]{\renewcommand{\@unidade}{#1}}
 \newcommand{\@curso}{}\newcommand{\Curso}[1]{\renewcommand{\@curso}{#1}}
-\newcommand{\@autor}{}\newcommand{\Autor}[1]{\renewcommand{\@autor}{#1}}
+\newcommand{\@autor}{}
+\newcommand{\@listaautores}{}
+\newcommand{\@pdfautores}{}
+\newif\if@primeiroautordefinido \@primeiroautordefinidofalse
+\newcommand{\AdicionarAutor}[1]{%
+  \if\relax\detokenize{#1}\relax\else
+    \g@addto@macro\@listaautores{#1\par}%
+    \if\relax\detokenize\expandafter{\@pdfautores}\relax
+      \g@addto@macro\@pdfautores{#1}%
+    \else
+      \g@addto@macro\@pdfautores{; #1}%
+    \fi
+  \fi
+}
+\newcommand{\Autor}[1]{%
+  \if@primeiroautordefinido
+    \AdicionarAutor{#1}%
+  \else
+    \renewcommand{\@autor}{#1}%
+    \if\relax\detokenize{#1}\relax\else
+      \@primeiroautordefinidotrue
+    \fi
+  \fi
+}
 \newcommand{\@titulo}{}\newcommand{\Titulo}[1]{\renewcommand{\@titulo}{#1}}
 \newcommand{\@subtitulo}{}\newcommand{\Subtitulo}[1]{\renewcommand{\@subtitulo}{#1}}
 \newcommand{\@cidade}{}\newcommand{\Cidade}[1]{\renewcommand{\@cidade}{#1}}
@@ -77,6 +100,8 @@
     \fi\fi\fi\fi\fi\fi
   }%
 }
+\@definirchave{VariosAutores}{false}
+\newcommand{\MostrarVariosAutores}[1]{\VariosAutores{#1}}
 \@definirchave{MostrarCapa}{true}
 \@definirchave{MostrarFolhaRosto}{true}
 \@definirchave{MostrarDedicatoria}{false}
@@ -110,6 +135,16 @@
 \Unidade{[UNIDADE, CENTRO OU DEPARTAMENTO]}      % Opcional: deixe {} para ocultar
 \Curso{[NOME DO CURSO]}                          % Opcional: deixe {} para ocultar
 \Autor{[NOME COMPLETO DO AUTOR]}
+
+% --- Molde para Vários Autores (Para ativar, mude \VariosAutores{sim} na PARTE 2) ---
+% Quando \VariosAutores{sim} estiver ativado, estes autores aparecem logo abaixo
+% do \Autor{...} principal (um por linha na Capa e na Folha de Rosto).
+% Não há limite: basta copiar e colar quantas linhas \AdicionarAutor{...} quiser!
+% (Enquanto \VariosAutores{nao}, as linhas abaixo são ignoradas; linhas vazias {} também).
+\AdicionarAutor{[NOME COMPLETO DO 2º AUTOR]}
+\AdicionarAutor{[NOME COMPLETO DO 3º AUTOR]}
+\AdicionarAutor{}                                % Copie esta linha para adicionar mais
+
 \Titulo{[TÍTULO DO TRABALHO]}
 \Subtitulo{}                                     % Opcional: se preenchido, aparece após ": "
 \Cidade{[CIDADE]}
@@ -134,6 +169,10 @@
 % ==============================================================================
 % Para ativar uma página ou seção, escreva {sim}. Para ocultá-la sem precisar
 % apagar seus textos, escreva {nao}.
+
+% --- Modo de Autoria ---
+\VariosAutores{nao}             % {nao} = exibe apenas 1 autor (\Autor{...})
+                                % {sim} = exibe vários autores (ativa os \AdicionarAutor{...} da PARTE 1)
 
 % --- Páginas Iniciais (Pré-Textuais) ---
 \MostrarCapa{sim}               % Capa institucional
@@ -192,7 +231,19 @@
 
 \makeatletter
 \AtBeginDocument{%
-  \hypersetup{pdftitle={\@titulo},pdfauthor={\@autor}}%
+  \ifVariosAutores
+    \if\relax\detokenize\expandafter{\@pdfautores}\relax
+      \hypersetup{pdftitle={\@titulo},pdfauthor={\@autor}}%
+    \else
+      \if\relax\detokenize\expandafter{\@autor}\relax
+        \hypersetup{pdftitle={\@titulo},pdfauthor={\@pdfautores}}%
+      \else
+        \hypersetup{pdftitle={\@titulo},pdfauthor={\@autor; \@pdfautores}}%
+      \fi
+    \fi
+  \else
+    \hypersetup{pdftitle={\@titulo},pdfauthor={\@autor}}%
+  \fi
 }
 \urlstyle{same}
 \addtolength{\textheight}{-5pt}
@@ -273,6 +324,12 @@
 \newcommand{\linhaopcional}[1]{%
   \if\relax\detokenize\expandafter{#1}\relax\else #1\par\fi
 }
+\newcommand{\@imprimirautores}{%
+  \linhaopcional{\@autor}%
+  \ifVariosAutores
+    \@listaautores
+  \fi
+}
 \newcommand{\@imprimirtitulocompleto}{%
   \textbf{\@titulo}%
   \if\relax\detokenize\expandafter{\@subtitulo}\relax\else
@@ -297,8 +354,8 @@
       \linhaopcional{\@instituicao}
       \linhaopcional{\@unidade}
       \linhaopcional{\@curso}
-      \vspace{1.8cm}
-      \@autor\par
+      \vspace{1.8cm minus 1.2cm}
+      \@imprimirautores
       \vfill
       \@imprimirtitulocompleto\par
       \vfill
@@ -311,11 +368,11 @@
   \ifMostrarFolhaRosto
     \thispagestyle{empty}
     \begin{center}
-      \@autor\par
-      \vspace{3cm}
+      \@imprimirautores
+      \vspace{3cm minus 2.2cm}
       \@imprimirtitulocompleto\par
     \end{center}
-    \vspace{2cm}
+    \vspace{2cm minus 1.5cm}
     \begin{flushright}
       \begin{minipage}{.5\textwidth}
         \singlespacing\sloppy\hbadness=10000
