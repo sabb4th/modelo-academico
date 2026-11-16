@@ -1,0 +1,960 @@
+% ==============================================================================
+% MODELO ACADÊMICO MODULAR EM LATEX — EDIÇÃO FACILITADA
+% ==============================================================================
+% Bem-vindo(a)! Este arquivo foi desenhado para que você escreva pré-projetos,
+% projetos de pesquisa, TCCs, monografias e relatórios acadêmicos sem precisar
+% dominar programação em LaTeX.
+%
+% Tudo o que está entre [COLCHETES] é um espaço reservado para o seu texto.
+% Linhas começando com % são comentários explicativos (não saem no PDF).
+%
+% ------------------------------------------------------------------------------
+% PASSO A PASSO PARA USAR ESTE MODELO
+% ------------------------------------------------------------------------------
+% 1. Na PARTE 1 (logo abaixo), preencha os dados do seu trabalho entre { }.
+% 2. Na PARTE 2, escolha o que quer mostrar ou esconder usando {sim} ou {nao}.
+% 3. Pule o "Motor de Formatação" e vá direto para a PARTE 3 e PARTE 4 para
+%    escrever seus textos, adicionar, mover ou remover seções.
+% 4. No final do arquivo (PARTE 6), há uma "Caixa de Ferramentas" com blocos
+%    prontos para copiar e colar (Figuras, Tabelas ABNT, Quadros, Equações,
+%    Citações longas, Listas, Modelos de Referências, etc.).
+% 5. Como gerar o PDF:
+%    - No computador (recomendado): tectonic modelo.tex
+%    - No Overleaf: Menu (canto superior esquerdo) > Compilador > XeLaTeX
+%
+% ------------------------------------------------------------------------------
+% GUIA RÁPIDO DE ESCRITA NO LATEX
+% ------------------------------------------------------------------------------
+% - NOVO PARÁGRAFO: Deixe uma linha totalmente em branco entre um parágrafo e
+%   outro. Nunca use \\ para separar parágrafos comuns.
+% - NEGRITO E ITÁLICO:
+%     \textbf{texto em negrito}
+%     \textit{texto em itálico}   (use para palavras estrangeiras e espécies)
+% - NOTA DE RODAPÉ:
+%     Texto normal\footnote{Texto da nota de rodapé.}
+% - SÍMBOLOS ESPECIAIS (precisam de barra invertida antes se usados no texto):
+%     \%   \&   \$   \#   \_   \{   \}
+% - GRAUS E UNIDADES:
+%     20 \textdegree{}C    ou    70 \(\pm\) 2 \textdegree{}C
+% - SUBSCRITO E SOBRESCRITO QUÍMICO/MATEMÁTICO:
+%     \(\mathrm{EC}_{50}\), \(\mathrm{H_2O}\), \(10^{-3}\)
+% - DICA DE OURO: Nunca apague uma chave { ou } sozinha; elas sempre trabalham
+%   em pares {assim}. Para achar o que falta preencher, busque por [ no editor.
+% ==============================================================================
+
+\documentclass[12pt,a4paper,oneside]{article}
+
+% --- Inicialização interna dos comandos de configuração (não altere) ---
+\makeatletter
+\newcommand{\@instituicao}{}\newcommand{\Instituicao}[1]{\renewcommand{\@instituicao}{#1}}
+\newcommand{\@unidade}{}\newcommand{\Unidade}[1]{\renewcommand{\@unidade}{#1}}
+\newcommand{\@curso}{}\newcommand{\Curso}[1]{\renewcommand{\@curso}{#1}}
+\newcommand{\@autor}{}\newcommand{\Autor}[1]{\renewcommand{\@autor}{#1}}
+\newcommand{\@titulo}{}\newcommand{\Titulo}[1]{\renewcommand{\@titulo}{#1}}
+\newcommand{\@subtitulo}{}\newcommand{\Subtitulo}[1]{\renewcommand{\@subtitulo}{#1}}
+\newcommand{\@cidade}{}\newcommand{\Cidade}[1]{\renewcommand{\@cidade}{#1}}
+\newcommand{\@ano}{}\newcommand{\Ano}[1]{\renewcommand{\@ano}{#1}}
+\newcommand{\@natureza}{}\newcommand{\Natureza}[1]{\renewcommand{\@natureza}{#1}}
+\newcommand{\@orientacao}{}\newcommand{\Orientacao}[1]{\renewcommand{\@orientacao}{#1}}
+\newcommand{\@coorientacao}{}\newcommand{\Coorientacao}[1]{\renewcommand{\@coorientacao}{#1}}
+\newcommand{\@arquivologo}{}\newcommand{\ArquivoLogo}[1]{\renewcommand{\@arquivologo}{#1}}
+\newcommand{\@alturalogo}{2.7cm}\newcommand{\AlturaLogo}[1]{\renewcommand{\@alturalogo}{#1}}
+
+\newcommand{\@definirchave}[2]{%
+  \expandafter\newif\csname if#1\endcsname
+  \csname #1#2\endcsname
+  \expandafter\newcommand\csname #1\endcsname[1]{%
+    \edef\@tempa{\detokenize{##1}}%
+    \edef\@sims{\detokenize{sim}}\edef\@simS{\detokenize{SIM}}\edef\@simCap{\detokenize{Sim}}%
+    \edef\@s{\detokenize{s}}\edef\@S{\detokenize{S}}\edef\@true{\detokenize{true}}%
+    \ifx\@tempa\@sims\csname #1true\endcsname\else
+    \ifx\@tempa\@simS\csname #1true\endcsname\else
+    \ifx\@tempa\@simCap\csname #1true\endcsname\else
+    \ifx\@tempa\@s\csname #1true\endcsname\else
+    \ifx\@tempa\@S\csname #1true\endcsname\else
+    \ifx\@tempa\@true\csname #1true\endcsname\else
+      \csname #1false\endcsname
+    \fi\fi\fi\fi\fi\fi
+  }%
+}
+\@definirchave{MostrarCapa}{true}
+\@definirchave{MostrarFolhaRosto}{true}
+\@definirchave{MostrarDedicatoria}{false}
+\@definirchave{MostrarAgradecimentos}{false}
+\@definirchave{MostrarEpigrafe}{false}
+\@definirchave{MostrarResumo}{true}
+\@definirchave{MostrarAbstract}{false}
+\@definirchave{MostrarListaFiguras}{false}
+\@definirchave{MostrarListaQuadros}{false}
+\@definirchave{MostrarListaTabelas}{false}
+\@definirchave{MostrarListaSiglas}{false}
+\@definirchave{MostrarSumario}{true}
+\@definirchave{MostrarCronograma}{true}
+\@definirchave{MostrarReferencias}{true}
+\@definirchave{MostrarApendices}{false}
+\@definirchave{MostrarAnexos}{false}
+\@definirchave{SecoesEmNovaPagina}{true}
+\@definirchave{EspacamentoUmEMeio}{true}
+\@definirchave{ReiniciarPaginaNoCorpo}{false}
+\makeatother
+
+
+% ==============================================================================
+% PARTE 1 — DADOS DO TRABALHO (EDITE APENAS O QUE ESTÁ ENTRE CHAVES { })
+% ==============================================================================
+% Estes dados preenchem automaticamente a Capa, a Folha de Rosto e os metadados
+% do arquivo PDF. Se um campo opcional não se aplicar ao seu trabalho, basta
+% deixá-lo vazio: {} (ele não deixará buracos nem linhas em branco na página).
+
+\Instituicao{[NOME DA INSTITUIÇÃO]}
+\Unidade{[UNIDADE, CENTRO OU DEPARTAMENTO]}      % Opcional: deixe {} para ocultar
+\Curso{[NOME DO CURSO]}                          % Opcional: deixe {} para ocultar
+\Autor{[NOME COMPLETO DO AUTOR]}
+\Titulo{[TÍTULO DO TRABALHO]}
+\Subtitulo{}                                     % Opcional: se preenchido, aparece após ": "
+\Cidade{[CIDADE]}
+\Ano{[ANO]}
+
+% Descrição da natureza do trabalho (aparece recuada na Folha de Rosto):
+\Natureza{[DESCRIÇÃO DO TRABALHO, FINALIDADE, CURSO E INSTITUIÇÃO]}
+
+% Orientação e coorientação (inclua o rótulo desejado, ex.: Orientador: Prof. Dr. ...):
+\Orientacao{[ORIENTAÇÃO: NOME E TITULAÇÃO]}
+\Coorientacao{}                                  % Opcional: deixe {} para ocultar
+
+% Logotipo ou brasão da instituição no topo da capa (opcional):
+% Para usar, coloque o caminho da imagem entre chaves, ex.: {imagens/brasao.png}
+% Deixe vazio {} para não exibir imagem.
+\ArquivoLogo{}
+\AlturaLogo{2.7cm}                               % Altura da imagem do logotipo
+
+
+% ==============================================================================
+% PARTE 2 — PAINEL DE CONTROLE: LIGAR OU DESLIGAR PARTES ({sim} ou {nao})
+% ==============================================================================
+% Para ativar uma página ou seção, escreva {sim}. Para ocultá-la sem precisar
+% apagar seus textos, escreva {nao}.
+
+% --- Páginas Iniciais (Pré-Textuais) ---
+\MostrarCapa{sim}               % Capa institucional
+\MostrarFolhaRosto{sim}         % Folha de rosto com natureza do trabalho e orientação
+\MostrarDedicatoria{nao}        % Página de dedicatória (opcional)
+\MostrarAgradecimentos{nao}     % Página de agradecimentos (opcional)
+\MostrarEpigrafe{nao}           % Página de epígrafe / citação inicial (opcional)
+\MostrarResumo{sim}             % Resumo em português
+\MostrarAbstract{nao}           % Abstract / resumo em língua estrangeira (opcional)
+\MostrarListaFiguras{nao}       % Lista automática de figuras (opcional)
+\MostrarListaQuadros{nao}       % Lista automática de quadros (opcional)
+\MostrarListaTabelas{nao}       % Lista automática de tabelas (opcional)
+\MostrarListaSiglas{nao}        % Lista de abreviaturas e siglas (opcional)
+\MostrarSumario{sim}            % Sumário automático
+
+% --- Seções Especiais e Pós-Textuais ---
+\MostrarCronograma{sim}         % Seção de cronograma de atividades
+\MostrarReferencias{sim}        % Seção de referências bibliográficas
+\MostrarApendices{nao}          % Apêndices (materiais elaborados pelo próprio autor)
+\MostrarAnexos{nao}             % Anexos (documentos/materiais elaborados por terceiros)
+
+% --- Opções Gerais de Formatação ---
+\SecoesEmNovaPagina{sim}        % {sim} = cada seção principal começa em nova página
+                                % {nao} = seções seguem na mesma página se houver espaço
+\EspacamentoUmEMeio{sim}        % {sim} = espaçamento 1,5 entre linhas (padrão acadêmico)
+                                % {nao} = espaçamento simples em todo o texto
+\ReiniciarPaginaNoCorpo{nao}    % {nao} = conta desde a folha de rosto (padrão ABNT)
+                                % {sim} = reinicia a numeração em 1 na primeira seção
+
+
+% ==============================================================================
+% MOTOR DE FORMATAÇÃO AUTOMÁTICA (NÃO É NECESSÁRIO EDITAR ESTA PARTE)
+% ==============================================================================
+% Pule diretamente para a PARTE 3 (após \begin{document}) para editar os textos.
+% ------------------------------------------------------------------------------
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{TeX Gyre Termes}}
+\usepackage[brazil]{babel}
+\usepackage[left=3cm,right=2cm,top=3cm,bottom=2cm,headheight=14pt,headsep=18pt]{geometry}
+\usepackage{setspace,graphicx,amsmath,array,titlesec,fancyhdr,enumitem}
+\usepackage[titles]{tocloft}
+\usepackage{xurl,tabularx,unicode-math}
+\setmathfont{texgyretermes-math.otf}
+\usepackage[hidelinks,unicode,hypertexnames=false,pdflang={pt-BR}]{hyperref}
+
+% Tipos de colunas simplificados para Tabelas e Quadros:
+% L = flexível à esquerda | C = flexível centralizada | R = flexível à direita
+% P{largura} = largura fixa à esquerda | M{largura} = largura fixa centralizada
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+\makeatletter
+\AtBeginDocument{%
+  \hypersetup{pdftitle={\@titulo},pdfauthor={\@autor}}%
+}
+\urlstyle{same}
+\addtolength{\textheight}{-5pt}
+\ifEspacamentoUmEMeio\onehalfspacing\else\singlespacing\fi
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\widowpenalty=10000
+\clubpenalty=10000
+
+% Cabeçalho e paginação
+\fancyhf{}
+\fancyhead[R]{\fontsize{10}{12}\selectfont\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\pagestyle{empty}
+
+% Formatação de títulos de seção (padrão acadêmico/ABNT)
+\titleformat{\section}{\normalfont\bfseries\normalsize}{\thesection}{.5em}{}
+\titleformat{\subsection}{\normalfont\bfseries\normalsize}{\thesubsection}{.5em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize}{\thesubsubsection}{.5em}{}
+\titleformat{name=\section,numberless}{\normalfont\bfseries\normalsize\centering}{}{0pt}{}
+\titlespacing{\section}{0pt}{0pt}{\baselineskip}
+\titlespacing{\subsection}{0pt}{\baselineskip}{\baselineskip}
+\titlespacing{\subsubsection}{0pt}{\baselineskip}{\baselineskip}
+
+% Configuração do Sumário, Lista de Figuras, Lista de Tabelas e Lista de Quadros
+\setcounter{tocdepth}{3}
+\addto\captionsbrazil{%
+  \renewcommand{\contentsname}{SUMÁRIO}%
+  \renewcommand{\listfigurename}{LISTA DE FIGURAS}%
+  \renewcommand{\listtablename}{LISTA DE TABELAS}%
+  \renewcommand{\figurename}{Figura}%
+  \renewcommand{\tablename}{Tabela}%
+}
+\renewcommand{\cfttoctitlefont}{\hfill\normalsize\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill\mbox{}}
+\renewcommand{\cftloftitlefont}{\hfill\normalsize\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill\mbox{}}
+\renewcommand{\cftlottitlefont}{\hfill\normalsize\bfseries}
+\renewcommand{\cftafterlottitle}{\hfill\mbox{}}
+
+\renewcommand{\cftsecfont}{\bfseries}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsecleader}{\normalfont\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecfont}{\normalfont\bfseries}
+\renewcommand{\cftsubsubsecfont}{\normalfont}
+\renewcommand{\cftsubsecpagefont}{\normalfont}
+\renewcommand{\cftsubsubsecpagefont}{\normalfont}
+\setlength{\cftbeforesecskip}{3pt}
+\setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{0pt}
+\setlength{\cftsubsubsecindent}{0pt}
+\setlength{\cftsecnumwidth}{4em}
+\setlength{\cftsubsecnumwidth}{4em}
+\setlength{\cftsubsubsecnumwidth}{4em}
+
+\setlength{\cftfigindent}{0pt}
+\setlength{\cftfignumwidth}{5.5em}
+\renewcommand{\cftfigpresnum}{Figura }
+\renewcommand{\cftfigaftersnum}{ \textendash{} }
+
+\setlength{\cfttabindent}{0pt}
+\setlength{\cfttabnumwidth}{5.5em}
+\renewcommand{\cfttabpresnum}{Tabela }
+\renewcommand{\cfttabaftersnum}{ \textendash{} }
+
+% Criação da Lista de Quadros automática
+\newcommand{\listquadroname}{LISTA DE QUADROS}
+\newlistof{quadro}{qua}{\listquadroname}
+\renewcommand{\cftquatitlefont}{\hfill\normalsize\bfseries}
+\renewcommand{\cftafterquatitle}{\hfill\mbox{}}
+\setlength{\cftquadroindent}{0pt}
+\setlength{\cftquadronumwidth}{5.5em}
+\renewcommand{\cftquadropresnum}{Quadro }
+\renewcommand{\cftquadroaftersnum}{ \textendash{} }
+
+% Comandos auxiliares internos
+\newcommand{\linhaopcional}[1]{%
+  \if\relax\detokenize\expandafter{#1}\relax\else #1\par\fi
+}
+\newcommand{\@imprimirtitulocompleto}{%
+  \textbf{\@titulo}%
+  \if\relax\detokenize\expandafter{\@subtitulo}\relax\else
+    : \normalfont\@subtitulo
+  \fi
+}
+
+% Geração automática da Capa e da Folha de Rosto
+\newcommand{\GerarCapaEFolhaDeRosto}{%
+  \ifMostrarCapa
+    \thispagestyle{empty}
+    \begin{center}
+      \if\relax\detokenize\expandafter{\@arquivologo}\relax\else
+        \IfFileExists{\@arquivologo}{%
+          \includegraphics[height=\@alturalogo]{\@arquivologo}\par\vspace{8pt}%
+        }{%
+          \fbox{\parbox{0.65\linewidth}{\centering\footnotesize\singlespacing
+            [Logotipo não encontrado em \textbf{\@arquivologo}.\\
+            Verifique o caminho em \textbf{\textbackslash ArquivoLogo} ou deixe \textbf{\{\}} vazio.]}}\par\vspace{8pt}%
+        }%
+      \fi
+      \linhaopcional{\@instituicao}
+      \linhaopcional{\@unidade}
+      \linhaopcional{\@curso}
+      \vspace{1.8cm}
+      \@autor\par
+      \vfill
+      \@imprimirtitulocompleto\par
+      \vfill
+      \@cidade\par\@ano
+    \end{center}
+    \clearpage
+  \fi
+  % A capa não entra na contagem; a primeira página após a capa inicia em 1.
+  \setcounter{page}{1}%
+  \ifMostrarFolhaRosto
+    \thispagestyle{empty}
+    \begin{center}
+      \@autor\par
+      \vspace{3cm}
+      \@imprimirtitulocompleto\par
+    \end{center}
+    \vspace{2cm}
+    \begin{flushright}
+      \begin{minipage}{.5\textwidth}
+        \singlespacing\sloppy\hbadness=10000
+        \@natureza\par
+        \vspace{12pt}
+        \linhaopcional{\@orientacao}
+        \linhaopcional{\@coorientacao}
+      \end{minipage}
+    \end{flushright}
+    \vfill
+    \begin{center}\@cidade\par\@ano\end{center}
+    \clearpage
+  \fi
+}
+
+% Geração automática das Listas e do Sumário
+\newcommand{\GerarListasESumario}{%
+  \ifMostrarListaFiguras
+    \thispagestyle{empty}
+    \listoffigures
+    \thispagestyle{empty}
+    \clearpage
+  \fi
+  \ifMostrarListaQuadros
+    \thispagestyle{empty}
+    \listofquadro
+    \thispagestyle{empty}
+    \clearpage
+  \fi
+  \ifMostrarListaTabelas
+    \thispagestyle{empty}
+    \listoftables
+    \thispagestyle{empty}
+    \clearpage
+  \fi
+  \ifMostrarSumario
+    \thispagestyle{empty}
+    \tableofcontents
+    \thispagestyle{empty}
+    \clearpage
+  \fi
+  % Inicia o corpo do trabalho com numeração visível no topo direito
+  \pagestyle{fancy}%
+  \ifReiniciarPaginaNoCorpo
+    \setcounter{page}{1}%
+  \fi
+}
+\makeatother
+
+% Ambientes para Páginas Pré-Textuais (ocultam-se sozinhos se marcados como {nao})
+\NewDocumentEnvironment{BlocoDedicatoria}{+b}{%
+  \ifMostrarDedicatoria
+    \thispagestyle{empty}
+    \vspace*{\fill}
+    \begin{flushright}
+      \begin{minipage}{0.5\textwidth}
+        \singlespacing\sloppy\hbadness=10000\noindent #1
+      \end{minipage}
+    \end{flushright}
+    \vspace{2cm}
+    \clearpage
+  \fi
+}{}
+
+\NewDocumentEnvironment{BlocoAgradecimentos}{+b}{%
+  \ifMostrarAgradecimentos
+    \thispagestyle{empty}
+    \section*{AGRADECIMENTOS}
+    #1
+    \clearpage
+  \fi
+}{}
+
+\NewDocumentEnvironment{BlocoEpigrafe}{m +b}{%
+  \ifMostrarEpigrafe
+    \thispagestyle{empty}
+    \vspace*{\fill}
+    \begin{flushright}
+      \begin{minipage}{0.55\textwidth}
+        \singlespacing\sloppy\hbadness=10000\noindent\textit{#2}\par\vspace{6pt}
+        \hfill (#1)
+      \end{minipage}
+    \end{flushright}
+    \vspace{2cm}
+    \clearpage
+  \fi
+}{}
+
+\NewDocumentEnvironment{BlocoResumo}{m +b}{%
+  \ifMostrarResumo
+    \thispagestyle{empty}
+    \section*{RESUMO}
+    \begingroup
+    \singlespacing
+    \noindent #2\par
+    \vspace{\baselineskip}
+    \noindent\textbf{Palavras-chave:} #1\par
+    \endgroup
+    \clearpage
+  \fi
+}{}
+
+\NewDocumentEnvironment{BlocoAbstract}{m +b}{%
+  \ifMostrarAbstract
+    \thispagestyle{empty}
+    \section*{ABSTRACT}
+    \begingroup
+    \singlespacing
+    \noindent #2\par
+    \vspace{\baselineskip}
+    \noindent\textbf{Keywords:} #1\par
+    \endgroup
+    \clearpage
+  \fi
+}{}
+
+\NewDocumentEnvironment{BlocoSiglas}{+b}{%
+  \ifMostrarListaSiglas
+    \thispagestyle{empty}
+    \section*{LISTA DE ABREVIATURAS E SIGLAS}
+    \begingroup
+    \singlespacing
+    \noindent
+    \begin{tabularx}{\linewidth}{@{}P{3cm}L@{}}
+      #1
+    \end{tabularx}
+    \endgroup
+    \clearpage
+  \fi
+}{}
+\newcommand{\Sigla}[2]{\textbf{#1} & #2 \\[4pt]}
+
+% Comandos de Seção do Corpo
+\newcommand{\Secao}[1]{%
+  \ifSecoesEmNovaPagina\clearpage\fi
+  \section{#1}%
+}
+\let\secaoprincipal\Secao % Compatibilidade com versão anterior
+\newcommand{\Subsecao}[1]{\subsection{#1}}
+\newcommand{\Subsubsecao}[1]{\subsubsection{#1}}
+\newcommand{\SecaoSemNumero}[1]{%
+  \ifSecoesEmNovaPagina\clearpage\fi
+  \phantomsection
+  \section*{#1}%
+  \addcontentsline{toc}{section}{#1}%
+}
+
+% Ambientes de Listas Padronizadas (com recuo de 1,25 cm e sem espaçamento extra)
+\newenvironment{ListaAlfab}{%
+  \begin{enumerate}[label=\alph*),leftmargin=1.25cm,labelsep=.5em,itemsep=0pt,parsep=0pt,topsep=0pt]%
+}{%
+  \end{enumerate}%
+}
+\newenvironment{ListaNumerada}{%
+  \begin{enumerate}[label=\arabic*.,leftmargin=1.25cm,labelsep=.5em,itemsep=0pt,parsep=0pt,topsep=0pt]%
+}{%
+  \end{enumerate}%
+}
+\newenvironment{ListaMarcadores}{%
+  \begin{itemize}[leftmargin=1.25cm,labelsep=.5em,itemsep=0pt,parsep=0pt,topsep=0pt]%
+}{%
+  \end{itemize}%
+}
+
+% Ambiente para Citação Direta Longa (mais de 3 linhas: recuo de 4 cm, fonte 10, simples)
+\newenvironment{CitacaoLonga}{%
+  \par\vspace{\baselineskip}%
+  \begingroup
+  \leftskip=4cm\relax
+  \singlespacing
+  \fontsize{10}{12}\selectfont
+  \setlength{\parindent}{0pt}%
+  \noindent\ignorespaces
+}{%
+  \par\endgroup
+  \vspace{\baselineskip}\noindent\ignorespacesafterend
+}
+
+% Ambiente para QUADRO (fechado com grade, para textos/dados qualitativos/cronograma)
+% Uso: \begin{Quadro}{Título do quadro}{Fonte}{qua:identificador} ... \end{Quadro}
+\NewDocumentEnvironment{Quadro}{m m m +b}{%
+  \begin{center}
+  \begin{minipage}{\linewidth}
+    \singlespacing
+    \refstepcounter{quadro}\label{#3}%
+    \addcontentsline{qua}{quadro}{\protect\numberline{\thequadro}#1}%
+    Quadro \thequadro{} \textendash{} #1\par
+    \vspace{6pt}
+    {\small
+    \renewcommand{\arraystretch}{1.3}%
+    \renewcommand{\tabularxcolumn}[1]{m{##1}}%
+    #4
+    }\par\vspace{6pt}
+    {\footnotesize Fonte: #2.\par}
+  \end{minipage}
+  \end{center}
+}{}
+
+% Ambiente para TABELA padrão IBGE/ABNT (aberta nas laterais, para dados numéricos)
+% Uso: \begin{Tabela}{Título da tabela}{Fonte}{tab:identificador} ... \end{Tabela}
+\NewDocumentEnvironment{Tabela}{m m m +b}{%
+  \begin{center}
+  \begin{minipage}{\linewidth}
+    \singlespacing
+    \refstepcounter{table}\label{#3}%
+    \addcontentsline{lot}{table}{\protect\numberline{\thetable}#1}%
+    Tabela \thetable{} \textendash{} #1\par
+    \vspace{6pt}
+    {\small
+    \renewcommand{\arraystretch}{1.3}%
+    #4
+    }\par\vspace{6pt}
+    {\footnotesize Fonte: #2.\par}
+  \end{minipage}
+  \end{center}
+}{}
+
+% Comando para FIGURA padrão ABNT (título em cima, imagem no centro, fonte embaixo)
+% Uso: \InserirFigura{Título}{caminho/arquivo.png}{0.7\linewidth}{Fonte}{fig:id}
+\newcommand{\InserirFigura}[5]{%
+  \begin{center}
+  \begin{minipage}{\linewidth}
+    \singlespacing\centering
+    \refstepcounter{figure}\label{#5}%
+    \addcontentsline{lof}{figure}{\protect\numberline{\thefigure}#1}%
+    Figura \thefigure{} \textendash{} #1\par
+    \vspace{6pt}
+    \IfFileExists{#2}{%
+      \includegraphics[width=#3]{#2}\par
+    }{%
+      \fbox{\parbox{#3}{\centering\footnotesize\vspace{12pt}%
+        [Imagem não encontrada: \textbf{#2}]\\[4pt]%
+        Coloque o arquivo de imagem nessa pasta ou ajuste o caminho no comando \textbf{\textbackslash InserirFigura}.\vspace{12pt}}}\par
+    }%
+    \vspace{6pt}
+    {\footnotesize Fonte: #4.\par}
+  \end{minipage}
+  \end{center}
+}
+
+% Comandos para Referências, Apêndices e Anexos
+\newcommand{\referencia}[1]{%
+  \begin{samepage}\noindent #1\par\end{samepage}\par\addvspace{\baselineskip}%
+}
+\newcommand{\Apendice}[2]{%
+  \clearpage
+  \phantomsection
+  \section*{APÊNDICE #1 \textendash{} #2}%
+  \addcontentsline{toc}{section}{APÊNDICE #1 \textendash{} #2}%
+}
+\newcommand{\Anexo}[2]{%
+  \clearpage
+  \phantomsection
+  \section*{ANEXO #1 \textendash{} #2}%
+  \addcontentsline{toc}{section}{ANEXO #1 \textendash{} #2}%
+}
+
+
+\begin{document}
+
+% ==============================================================================
+% PARTE 3 — PÁGINAS INICIAIS (PRÉ-TEXTUAIS)
+% ==============================================================================
+% A linha abaixo monta automaticamente a Capa e a Folha de Rosto com os dados
+% que você preencheu na PARTE 1 (respeitando o {sim}/{nao} da PARTE 2).
+\GerarCapaEFolhaDeRosto
+
+% ------------------------------------------------------------------------------
+% DEDICATÓRIA (Opcional — para ativar, mude \MostrarDedicatoria{sim} na PARTE 2)
+% ------------------------------------------------------------------------------
+\begin{BlocoDedicatoria}
+[TEXTO DA DEDICATÓRIA — Exemplo: Dedico este trabalho à minha família e a todos que apoiaram minha jornada acadêmica.]
+\end{BlocoDedicatoria}
+
+% ------------------------------------------------------------------------------
+% AGRADECIMENTOS (Opcional — para ativar, mude \MostrarAgradecimentos{sim} na PARTE 2)
+% ------------------------------------------------------------------------------
+\begin{BlocoAgradecimentos}
+[TEXTO DOS AGRADECIMENTOS — Escreva aqui seus agradecimentos à instituição, orientação, colegas, família e agências de fomento, se houver.]
+\end{BlocoAgradecimentos}
+
+% ------------------------------------------------------------------------------
+% EPÍGRAFE (Opcional — para ativar, mude \MostrarEpigrafe{sim} na PARTE 2)
+% ------------------------------------------------------------------------------
+\begin{BlocoEpigrafe}{[AUTOR DA FRASE, ANO]}
+[TEXTO DA EPÍGRAFE / CITAÇÃO INICIAL]
+\end{BlocoEpigrafe}
+
+% ------------------------------------------------------------------------------
+% RESUMO EM PORTUGUÊS (Controlado por \MostrarResumo{sim} na PARTE 2)
+% ------------------------------------------------------------------------------
+% Coloque as palavras-chave no primeiro par de chaves { } separadas por ponto e
+% vírgula. Escreva o corpo do resumo em um único parágrafo dentro do bloco.
+\begin{BlocoResumo}{[PALAVRA 1]; [PALAVRA 2]; [PALAVRA 3].}
+[TEXTO DO RESUMO — Apresente de forma concisa o contexto, o objetivo, a metodologia utilizada e os resultados obtidos ou esperados, em um único parágrafo.]
+\end{BlocoResumo}
+
+% ------------------------------------------------------------------------------
+% ABSTRACT / LÍNGUA ESTRANGEIRA (Opcional — mude \MostrarAbstract{sim} na PARTE 2)
+% ------------------------------------------------------------------------------
+\begin{BlocoAbstract}{[KEYWORD 1]; [KEYWORD 2]; [KEYWORD 3].}
+[ABSTRACT TEXT — English translation of the abstract in a single paragraph.]
+\end{BlocoAbstract}
+
+% ------------------------------------------------------------------------------
+% LISTA DE ABREVIATURAS E SIGLAS (Opcional — mude \MostrarListaSiglas{sim} na PARTE 2)
+% ------------------------------------------------------------------------------
+% Adicione uma linha \Sigla{SIGLA}{Significado por extenso} para cada item,
+% mantendo em ordem alfabética.
+\begin{BlocoSiglas}
+  \Sigla{[SIGLA 1]}{[Significado completo da sigla 1]}
+  \Sigla{[SIGLA 2]}{[Significado completo da sigla 2]}
+\end{BlocoSiglas}
+
+% A linha abaixo gera automaticamente as Listas (Figuras, Quadros, Tabelas) e o
+% Sumário conforme suas escolhas na PARTE 2, e inicia a paginação do corpo:
+\GerarListasESumario
+
+
+% ==============================================================================
+% PARTE 4 — CORPO DO TRABALHO (SEÇÕES TEXTUAIS)
+% ==============================================================================
+% COMO EDITAR E REORGANIZAR AS SEÇÕES:
+% - Cada seção principal começa com \Secao{TÍTULO}.
+% - Subdivisões usam \Subsecao{Título} (ex.: 1.1) e \Subsubsecao{Título} (ex.: 1.1.1).
+% - NUNCA digite os números nos títulos: o LaTeX calcula a sequência e atualiza
+%   o Sumário sozinho!
+% - Você pode renomear, mudar de lugar, duplicar ou apagar qualquer seção inteira
+%   (do comentário INÍCIO até o comentário FIM correspondente).
+
+
+% ==============================================================================
+% INÍCIO DA SEÇÃO: PROBLEMA DE PESQUISA (ou INTRODUÇÃO)
+% ==============================================================================
+\Secao{PROBLEMA DE PESQUISA}
+% Escreva aqui a contextualização do tema, a delimitação e a pergunta central
+% que o seu trabalho busca responder. Lembre-se: deixe uma linha em branco para
+% iniciar um novo parágrafo.
+
+[TEXTO DO PROBLEMA DE PESQUISA]
+
+% FIM DA SEÇÃO: PROBLEMA DE PESQUISA
+% ==============================================================================
+
+
+% ==============================================================================
+% INÍCIO DA SEÇÃO: JUSTIFICATIVA
+% ==============================================================================
+\Secao{JUSTIFICATIVA}
+% Explique a relevância científica, acadêmica, social ou regional da pesquisa
+% e por que é importante realizá-la.
+
+[TEXTO DA JUSTIFICATIVA]
+
+% FIM DA SEÇÃO: JUSTIFICATIVA
+% ==============================================================================
+
+
+% ==============================================================================
+% INÍCIO DA SEÇÃO: OBJETIVOS
+% ==============================================================================
+\Secao{OBJETIVOS}
+
+\Subsecao{Objetivo geral}
+[TEXTO DO OBJETIVO GERAL — Comece com um verbo no infinitivo, ex.: Investigar, Analisar, Avaliar, Desenvolver...]
+
+\Subsecao{Objetivos específicos}
+% Para adicionar mais itens, basta criar uma nova linha com \item.
+% Para remover, apague a linha \item correspondente.
+\begin{ListaAlfab}
+  \item {}[OBJETIVO ESPECÍFICO 1];
+  \item {}[OBJETIVO ESPECÍFICO 2];
+  \item {}[OBJETIVO ESPECÍFICO 3].
+\end{ListaAlfab}
+
+% FIM DA SEÇÃO: OBJETIVOS
+% ==============================================================================
+
+
+% ==============================================================================
+% INÍCIO DA SEÇÃO: HIPÓTESES E METODOLOGIA
+% ==============================================================================
+\Secao{HIPÓTESES E METODOLOGIA}
+% DICA: Se o seu trabalho não tiver hipóteses, basta apagar o bloco \Subsecao{Hipóteses}
+% abaixo e mudar o título acima para \Secao{METODOLOGIA}. Você também pode
+% incluir uma seção de \Secao{REFERENCIAL TEÓRICO} antes da metodologia!
+
+\Subsecao{Hipóteses}
+[TEXTO DAS HIPÓTESES]
+
+\Subsecao{Metodologia}
+% Os tópicos abaixo são sugestões. Renomeie, apague ou adicione novos comandos
+% \Subsubsecao{...} de acordo com a natureza da sua pesquisa.
+
+\Subsubsecao{Caracterização da pesquisa}
+[TEXTO DA CARACTERIZAÇÃO DA PESQUISA]
+
+\Subsubsecao{Materiais, fontes ou participantes}
+[TEXTO DOS MATERIAIS, FONTES OU PARTICIPANTES]
+
+\Subsubsecao{Procedimentos}
+[TEXTO DOS PROCEDIMENTOS]
+
+\Subsubsecao{Análise dos dados}
+[TEXTO DA ANÁLISE DOS DADOS]
+
+% FIM DA SEÇÃO: HIPÓTESES E METODOLOGIA
+% ==============================================================================
+
+
+% ==============================================================================
+% INÍCIO DA SEÇÃO: RESULTADOS ESPERADOS (ou RESULTADOS E DISCUSSÃO)
+% ==============================================================================
+\Secao{RESULTADOS ESPERADOS}
+[TEXTO DOS RESULTADOS ESPERADOS]
+
+% FIM DA SEÇÃO: RESULTADOS ESPERADOS
+% ==============================================================================
+
+
+% ==============================================================================
+% INÍCIO DA SEÇÃO: CRONOGRAMA (Controlado por \MostrarCronograma{sim} na PARTE 2)
+% ==============================================================================
+\ifMostrarCronograma
+\Secao{CRONOGRAMA}
+[TEXTO DE APRESENTAÇÃO DO CRONOGRAMA — Exemplo: As etapas previstas para o desenvolvimento da pesquisa estão distribuídas no Quadro~\ref{qua:cronograma}.]
+
+% COMO EDITAR O QUADRO DO CRONOGRAMA:
+% - O sinal & separa as colunas; o comando \\ \hline encerra a linha.
+% - Marque com X os períodos em que cada atividade será realizada e deixe em
+%   branco (ou coloque um traço –) nos demais períodos.
+% - Para ADICIONAR UMA ATIVIDADE: copie uma linha inteira antes de \end{tabularx}.
+% - Para MUDAR O NÚMERO DE PERÍODOS (ex.: de 4 para 6 meses):
+%   1) Na linha \begin{tabularx}, troque *{4}{M{1.4cm}|} por *{6}{M{0.9cm}|}.
+%   2) Adicione mais duas colunas (& \textbf{[P5]} & \textbf{[P6]}) no cabeçalho
+%      e (& & ) em TODAS as linhas de atividades.
+\begin{Quadro}{[TÍTULO DO CRONOGRAMA]}{[FONTE DO CRONOGRAMA]}{qua:cronograma}
+  \begin{tabularx}{\linewidth}{|L|*{4}{M{1.4cm}|}}
+    \hline
+    \textbf{Atividades} & \textbf{[P1]} & \textbf{[P2]} & \textbf{[P3]} & \textbf{[P4]} \\ \hline
+    [ATIVIDADE 1] & & & & \\ \hline
+    [ATIVIDADE 2] & & & & \\ \hline
+    [ATIVIDADE 3] & & & & \\ \hline
+  \end{tabularx}
+\end{Quadro}
+\fi
+% FIM DA SEÇÃO: CRONOGRAMA
+% ==============================================================================
+
+
+% ==============================================================================
+% PARTE 5 — ELEMENTOS PÓS-TEXTUAIS (REFERÊNCIAS, APÊNDICES E ANEXOS)
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% REFERÊNCIAS (Controladas por \MostrarReferencias{sim} na PARTE 2)
+% ------------------------------------------------------------------------------
+% COMO PREENCHER:
+% - Coloque cada obra dentro de um comando \referencia{...} em ordem alfabética.
+% - O espaçamento simples, o alinhamento à esquerda e o espaço entre uma obra e
+%   outra já são aplicados automaticamente!
+% - Para links da internet, use \url{https://...} dentro da referência.
+% - Na PARTE 6 (no final deste arquivo), há modelos prontos de como formatar
+%   Artigos, Livros, Capítulos e Leis segundo a ABNT.
+\ifMostrarReferencias
+\SecaoSemNumero{REFERÊNCIAS}
+\begingroup
+\singlespacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\raggedright
+
+\referencia{[REFERÊNCIA COMPLETA 1]}
+
+\referencia{[REFERÊNCIA COMPLETA 2]}
+
+\endgroup
+\fi
+
+% ------------------------------------------------------------------------------
+% APÊNDICES (Opcional — mude \MostrarApendices{sim} na PARTE 2 para exibir)
+% ------------------------------------------------------------------------------
+% Use para documentos ou materiais elaborados por VOCÊ (ex.: questionários,
+% roteiros, tabelas detalhadas extras). Para adicionar outro, use \Apendice{B}{...}.
+\ifMostrarApendices
+\Apendice{A}{[TÍTULO DO APÊNDICE A]}
+[CONTEÚDO DO APÊNDICE A]
+\fi
+
+% ------------------------------------------------------------------------------
+% ANEXOS (Opcional — mude \MostrarAnexos{sim} na PARTE 2 para exibir)
+% ------------------------------------------------------------------------------
+% Use para documentos não elaborados por você (ex.: parecer do comitê de ética,
+% mapas oficiais, laudos externos). Para adicionar outro, use \Anexo{B}{...}.
+\ifMostrarAnexos
+\Anexo{A}{[TÍTULO DO ANEXO A]}
+[CONTEÚDO DO ANEXO A]
+\fi
+
+
+% ==============================================================================
+% PARTE 6 — CAIXA DE FERRAMENTAS (RECEITAS PRONTAS PARA COPIAR E COLAR)
+% ==============================================================================
+% Tudo aqui embaixo está comentado com % e NÃO aparece no PDF.
+% Quando precisar de algum elemento, copie o bloco desejado, cole na seção do
+% seu texto onde quer que ele apareça e apague o símbolo % do início das linhas!
+%
+% ------------------------------------------------------------------------------
+% 1. NOVA SEÇÃO, SUBSEÇÃO E SUBSUBSEÇÃO
+% ------------------------------------------------------------------------------
+% \Secao{[TÍTULO DA NOVA SEÇÃO]}
+% [Texto da seção...]
+%
+% \Subsecao{[Título da subseção]}
+% [Texto da subseção...]
+%
+% \Subsubsecao{[Título da subsubseção]}
+% [Texto da subsubseção...]
+%
+% ------------------------------------------------------------------------------
+% 2. DIFERENÇA ENTRE QUADRO E TABELA (PADRÃO ABNT / IBGE)
+% ------------------------------------------------------------------------------
+% - Use QUADRO quando o conteúdo for predominantemente TEXTUAL ou qualitativo
+%   (possui linhas verticais fechando as laterais e separando colunas).
+% - Use TABELA quando o conteúdo for numérico/estatístico (padrão IBGE: as
+%   laterais são ABERTAS, sem linhas verticais, apenas com filetes horizontais
+%   no topo, abaixo do cabeçalho e na base).
+% - Tipos de colunas disponíveis:
+%     L = coluna elástica alinhada à esquerda (quebra linha sozinha)
+%     C = coluna elástica centralizada
+%     R = coluna elástica alinhada à direita
+%     P{4cm} = coluna de largura fixa (4cm) alinhada à esquerda
+%     M{2cm} = coluna de largura fixa (2cm) centralizada
+%
+% --- RECEITA DE QUADRO (Fechado com grade) ---
+% \begin{Quadro}{[Título do quadro]}{[Fonte, ex.: elaboração própria (2026)]}{qua:exemplo}
+%   \begin{tabularx}{\linewidth}{|P{4cm}|L|}
+%     \hline
+%     \textbf{[Coluna 1]} & \textbf{[Coluna 2]} \\ \hline
+%     [Item A] & [Descrição detalhada do item A] \\ \hline
+%     [Item B] & [Descrição detalhada do item B] \\ \hline
+%   \end{tabularx}
+% \end{Quadro}
+% % Como citar no texto: conforme apresentado no Quadro~\ref{qua:exemplo}.
+%
+% --- RECEITA DE TABELA PADRÃO IBGE/ABNT (Aberta nas laterais, para números) ---
+% \begin{Tabela}{[Título da tabela]}{[Fonte, ex.: dados da pesquisa (2026)]}{tab:exemplo}
+%   \begin{tabularx}{\linewidth}{L c c c}
+%     \hline
+%     \textbf{[Amostra / Grupo]} & \textbf{[Parâmetro 1]} & \textbf{[Parâmetro 2]} & \textbf{[Média \(\pm\) DP]} \\ \hline
+%     [Amostra A] & 10,5 & 2,3 & 10,5 \(\pm\) 0,2 \\
+%     [Amostra B] & 12,1 & 2,8 & 12,1 \(\pm\) 0,4 \\
+%     [Amostra C] & 9,8  & 2,1 & 9,8 \(\pm\) 0,3  \\ \hline
+%   \end{tabularx}
+% \end{Tabela}
+% % Como citar no texto: de acordo com os resultados da Tabela~\ref{tab:exemplo}.
+%
+% ------------------------------------------------------------------------------
+% 3. FIGURA PADRÃO ABNT (Título na parte superior e Fonte na parte inferior)
+% ------------------------------------------------------------------------------
+% % Dica: se você ainda não tiver o arquivo da imagem na pasta, o modelo não
+% % dará erro; ele mostrará um quadro indicando onde colocar a imagem!
+% \InserirFigura
+%   {[Título da figura]}
+%   {imagens/minha-figura.png}
+%   {0.7\linewidth}
+%   {[Fonte, ex.: elaboração própria (2026)]}
+%   {fig:exemplo}
+% % Como citar no texto: observa-se na Figura~\ref{fig:exemplo}.
+%
+% ------------------------------------------------------------------------------
+% 4. EQUAÇÃO MATEMÁTICA NUMERADA + EXPLICAÇÃO DAS VARIÁVEIS
+% ------------------------------------------------------------------------------
+% \begin{equation}\label{eq:exemplo}
+%   \mathrm{Rendimento}\;(\%) = \frac{m_{\text{final}}}{m_{\text{inicial}}} \times 100
+% \end{equation}
+% Em que \(m_{\text{final}}\) corresponde à massa final obtida, em gramas; e
+% \(m_{\text{inicial}}\) representa a massa inicial da amostra, em gramas.
+% % Como citar no texto: calculado conforme a Equação~\eqref{eq:exemplo}.
+%
+% ------------------------------------------------------------------------------
+% 5. CITAÇÕES NO TEXTO (CURTA E LONGA — PADRÃO ABNT)
+% ------------------------------------------------------------------------------
+% % CITAÇÃO INDIRETA (paráfrase):
+% %   Segundo Silva (2024), os resultados demonstram...
+% %   ...conforme observado em estudos recentes (Silva; Santos, 2024).
+% %   ...quando há mais de três autores, usa-se et al. em itálico (Sousa \textit{et al.}, 2020).
+%
+% % CITAÇÃO DIRETA CURTA (até 3 linhas — vai no próprio parágrafo entre aspas):
+% %   Segundo Autor (2024, p. 15), ``texto exato copiado da obra original''.
+%
+% % CITAÇÃO DIRETA LONGA (mais de 3 linhas — recuo de 4 cm, fonte 10, simples):
+% \begin{CitacaoLonga}
+%   [Copie aqui o trecho literal com mais de três linhas, sem usar aspas. O recuo
+%   de 4 cm à esquerda, o espaçamento simples e a fonte tamanho 10 são aplicados
+%   automaticamente por este bloco] (Autor, Ano, p. [XX]).
+% \end{CitacaoLonga}
+%
+% ------------------------------------------------------------------------------
+% 6. LISTAS DE ITENS (ALFABÉTICA, NUMERADA E COM MARCADORES)
+% ------------------------------------------------------------------------------
+% % Lista com alíneas a), b), c):
+% \begin{ListaAlfab}
+%   \item {}[Primeiro item];
+%   \item {}[Segundo item].
+% \end{ListaAlfab}
+%
+% % Lista numerada 1., 2., 3.:
+% \begin{ListaNumerada}
+%   \item {}[Primeiro passo];
+%   \item {}[Segundo passo].
+% \end{ListaNumerada}
+%
+% % Lista com marcadores (bolinhas):
+% \begin{ListaMarcadores}
+%   \item {}[Ponto importante 1];
+%   \item {}[Ponto importante 2].
+% \end{ListaMarcadores}
+%
+% ------------------------------------------------------------------------------
+% 7. MODELOS DE REFERÊNCIAS BIBLIOGRÁFICAS (PADRÃO ABNT NBR 6023)
+% ------------------------------------------------------------------------------
+% % ARTIGO DE PERIÓDICO (REVISTA CIENTÍFICA):
+% \referencia{SOBRENOME, Nome; SOBRENOME, Nome. Título do artigo. \textbf{Nome da Revista em Negrito}, Cidade, v. 10, n. 2, p. 15-30, 2025. DOI: \url{https://doi.org/10.xxxx/xxxx}. Disponível em: \url{https://...}. Acesso em: 15 nov. 2026.}
+%
+% % ARTIGO COM MAIS DE 3 AUTORES (usa-se \textit{et al.} após o primeiro):
+% \referencia{SOBRENOME, Nome \textit{et al.} Título do artigo. \textbf{Nome da Revista em Negrito}, [S. l.], v. 20, e12345, 2024. DOI: \url{https://doi.org/10.xxxx/xxxx}.}
+%
+% % LIVRO INTEIRO:
+% \referencia{SOBRENOME, Nome. \textbf{Título do livro em negrito}: subtítulo sem negrito. 3. ed. Cidade: Editora, 2023.}
+%
+% % CAPÍTULO DE LIVRO ORGANIZADO POR OUTROS AUTORES:
+% \referencia{SOBRENOME, Nome do Autor do Capítulo. Título do capítulo. In: SOBRENOME, Nome do Organizador (org.). \textbf{Título do livro em negrito}. Cidade: Editora, 2024. cap. 4, p. 80-102.}
+%
+% % LEI, INSTRUÇÃO NORMATIVA OU DOCUMENTO OFICIAL:
+% \referencia{BRASIL. Ministério [Nome]. Instrução Normativa nº [XX], de [dia] de [mês] de [ano]. [Ementa/descrição]. \textbf{Diário Oficial da União}: seção 1, Brasília, DF, p. [X], [data]. Disponível em: \url{https://...}. Acesso em: 15 nov. 2026.}
+%
+% % TCC, DISSERTAÇÃO OU TESE:
+% \referencia{SOBRENOME, Nome. \textbf{Título do trabalho em negrito}: subtítulo. 2025. Dissertação (Mestrado em [Área]) – [Faculdade/Instituto], [Universidade], [Cidade], 2025.}
+% ==============================================================================
+
+\end{document}
